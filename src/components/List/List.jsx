@@ -3,24 +3,17 @@ import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, 
 import useStyles from './styles'
 import PlaceDetails from '../PlaceDetails/PlaceDetails'
 
-const List = () => {
+const List = ({places}) => {
   const classes = useStyles()
   const [type, setType] = useState('restraunts')
   const [rating, setRating] = useState('')
-  const places = [
-    { name: 'Place 1' },
-    { name: 'Place 2' },
-    { name: 'Place 3' },
-    { name: 'Place 4' },
-    { name: 'Place 5' },
-    { name: 'Place 6' },
-  ];
+  
 
   return (
     <div className='classes.container' style={{marginTop: "2%", marginLeft: "2%"}}>
       <Typography variant='h5'> Restraunts, Hotels, Attractions around you </Typography>
 
-      <FormControl className='classes.formControl'>
+      <FormControl className='classes.formControl' style={{marginTop: "2%"}} >
         <InputLabel>Type</InputLabel>
         <Select value={type} onChange={(e) => setType(e.target.value)}>
           <MenuItem value="restraunts">Restraunts</MenuItem>
@@ -29,7 +22,7 @@ const List = () => {
         </Select>
       </FormControl>
 
-      <FormControl className='classes.formControl' style={{marginLeft: "2%"}}>
+      <FormControl className='classes.formControl' style={{ paddingLeft: "5%", marginTop: "2%", marginLeft: "2%"}}>
         <InputLabel>Rating</InputLabel>
         <Select value={rating} onChange={(e) => setRating(e.target.value)}>
           <MenuItem value="0">All</MenuItem>
@@ -39,7 +32,7 @@ const List = () => {
         </Select>
       </FormControl>
 
-      <Grid container spacing = {3} className = 'classes.list'>
+      <Grid container spacing = {3} className = {classes.list}>
         {places ?.map((place, i) => (
           <Grid item key = {i} xs = {12}>
             <PlaceDetails place = {place}  />
