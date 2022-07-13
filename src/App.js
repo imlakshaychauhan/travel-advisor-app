@@ -9,6 +9,8 @@ const App = () => {
     const [places, setPlaces] = useState([]);
     const [coords, setCoords] = useState({});
     const [bounds, setBounds] = useState({});
+    const [childSelected, setChildSelected] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(({coords: {latitude,longitude}}) => {
@@ -17,11 +19,13 @@ const App = () => {
     }, [])
 
     useEffect(() => {
+        setIsLoading(true);
         getPlacesData(bounds.sw, bounds.ne)
             .then((data) => {
                 console.log(data);
                 setPlaces(data);
             })
+        setIsLoading(false);
     }, [coords, bounds])
     
     return (
@@ -30,7 +34,11 @@ const App = () => {
         <Header />
         <Grid container spacing = {3} style = {{ width: '100%' }}>
             <Grid item xs = {12} md = {4}>
-                <List places={places} />
+                <List 
+                    places={places}
+                    childSelected = {childSelected}
+                    isLoading = {isLoading}
+                />
             </Grid>
             <Grid item xs = {12} md = {4}>
                 <Map
@@ -38,6 +46,7 @@ const App = () => {
                     setCoords = {setCoords}
                     coords = {coords}
                     places = {places}
+                    setChildSelected = {setChildSelected}
                 />
             </Grid>
         </Grid>

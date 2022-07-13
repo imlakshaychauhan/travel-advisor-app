@@ -5,14 +5,14 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import Rating from '@material-ui/lab/Rating';
 import useStyles from './styles';
 
-const Map = ({setBounds, setCoords, coords, places}) => {
+const Map = ({setBounds, setCoords, coords, places, setChildSelected}) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery('(min-width: 600px)');
 
   return (
     <div className={classes.mapContainer}>
         <GoogleMapReact
-            bootstrapURLKeys = {{ key: 'AIzaSyByGJpf3YoYO9EVYftu-8lXkRIxxM2KEEA' }}
+            bootstrapURLKeys = {{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
             defaultCenter = {coords}
             center={coords}
             defaultZoom={14}
@@ -22,7 +22,7 @@ const Map = ({setBounds, setCoords, coords, places}) => {
                 setCoords({ lat: e.center.lat, lng: e.center.lng });
                 setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
             }}
-            onChildClick={''}
+            onChildClick={(child) => setChildSelected(child)}
         >
           {places?.map((place, i) => (
             <div
