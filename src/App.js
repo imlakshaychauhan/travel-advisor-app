@@ -7,6 +7,7 @@ import { getPlacesData } from './api/index'
 
 const App = () => {
     const [places, setPlaces] = useState([]);
+    const [filteredPlaces, setFilteredPlaces] = useState([]);
     const [coords, setCoords] = useState({});
     const [bounds, setBounds] = useState({});
     const [childSelected, setChildSelected] = useState({});
@@ -21,23 +22,33 @@ const App = () => {
     }, [])
 
     useEffect(() => {
+        const newFilteredPlaces = places.filter((place) => Number(place.rating) > rating)
+        setFilteredPlaces(newFilteredPlaces);
+    }, [rating])
+
+    useEffect(() => {
+        if(bounds.sw && bounds.ne) {
         setIsLoading(true);
         getPlacesData(type, bounds.sw, bounds.ne)
-            .then((data) => {
-                console.log(data);
-                setPlaces(data);
+            .then((data) => {   
+                // console.log(data);
+                setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+                setFilteredPlaces({});
             })
         setIsLoading(false);
-    }, [type, coords, bounds])
+        }
+    }, [type, bounds])
 
     return (
         <>
         <CssBaseline />
-        <Header />
+        <Header
+            setCoords = {setCoords}
+        />
         <Grid container spacing = {3} style = {{ width: '100%' }}>
             <Grid item xs = {12} md = {4}>
                 <List 
-                    places={places}
+                    places={filteredPlaces.length ? filteredPlaces : places}
                     childSelected = {childSelected}
                     isLoading = {isLoading}
                     type = {type}
@@ -51,7 +62,7 @@ const App = () => {
                     setBounds = {setBounds}
                     setCoords = {setCoords}
                     coords = {coords}
-                    places = {places}
+                    places = {filteredPlaces.length ? filteredPlaces : places}
                     setChildSelected = {setChildSelected}
                 />
             </Grid>
