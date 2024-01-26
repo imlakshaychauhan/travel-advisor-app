@@ -15,6 +15,7 @@ const App = () => {
     const [type, setType] = useState('restaurants');
     const [rating, setRating] = useState('');
     const [weatherData, setWeatherData] = useState([]);
+    
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(({coords: {latitude,longitude}}) => {
             setCoords({lat: latitude, lng: longitude})
