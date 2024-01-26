@@ -41,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Travel Advisor App that shows all you need near you, which means you just have to move your map the restaurants, hotels and attractions will be shown to your screen.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
